@@ -7,19 +7,23 @@ from resources.lib.gui.windows.base_window import BaseWindow
 from resources.lib.modules.globals import g
 
 
-class PlayingNext(BaseWindow):
+class SkipIntro(BaseWindow):
     """
     Dialog to provide quick skipping to next playlist item if available.
     """
-    def __init__(self, xml_file, xml_location, item_information=None):
+    def __init__(self, xml_file, xml_location):
 
         try:
-            super(PlayingNext, self).__init__(
-                xml_file, xml_location, item_information=item_information
+            super(SkipIntro, self).__init__(
+                xml_file, xml_location
             )
             self.playing_file = self.getPlayingFile()
             self.duration = self.getTotalTime() - self.getTime()
             self.closed = False
+            self.skip_intro = g.get_bool_setting("skip.intro.dialog")
+            self.skip_intro_open_time = g.get_int_setting("skip.intro.open.time")
+            self.skip_intro_time = g.get_int_setting("skip.intro.time")
+            self.skip_intro_activated_time = 0
         except:
             g.log_stacktrace()
 
@@ -88,6 +92,7 @@ class PlayingNext(BaseWindow):
         :return: None
         :rtype: none
         """
+        self.skip_intro_activated_time = int(self.getTime())
         self.background_tasks()
 
     def calculate_percent(self):
@@ -121,6 +126,9 @@ class PlayingNext(BaseWindow):
                 xbmc.sleep(500)
                 if progress_bar is not None:
                     progress_bar.setPercent(self.calculate_percent())
+                    
+                if self.skip_intro_activated_time + self.skip_intro_open_time == int(self.getTime()):
+                    self.close()
 
         except:
             import traceback
@@ -136,7 +144,7 @@ class PlayingNext(BaseWindow):
         :rtype: none
         """
         try:
-            super(PlayingNext, self).doModal()
+            super(SkipIntro, self).doModal()
         except:
             g.log_stacktrace()
 
@@ -147,7 +155,7 @@ class PlayingNext(BaseWindow):
         :rtype: none
         """
         self.closed = True
-        super(PlayingNext, self).close()
+        super(SkipIntro, self).close()
 
     def onClick(self, control_id):
         """
@@ -176,7 +184,7 @@ class PlayingNext(BaseWindow):
         if control_id is None:
             control_id = self.getFocusId()
         if control_id == 3001:
-            self.seekTime(self.getTotalTime())
+            self.seekTime(int(self.getTime()) + self.skip_intro_time)
             self.close()
         if control_id == 3002:
             self.close()

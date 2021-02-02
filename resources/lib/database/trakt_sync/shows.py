@@ -200,13 +200,19 @@ class TraktSyncDatabase(trakt_sync.TraktSyncDatabase):
         """
         paginate = g.get_bool_setting("general.paginatecollection")
         sort = g.get_int_setting("general.sortcollection")
+        sort_direction = g.get_int_setting("general.sortcollection.direction")
 
         query = """select e.trakt_show_id as trakt_id, m.value as trakt_object from episodes as e left 
         join shows as sh on sh.trakt_id = e.trakt_show_id left join shows_meta as m on m.id = e.trakt_show_id and 
         m.type='trakt' where e.collected = 1 group by e.trakt_show_id"""
 
+        if sort_direction == 0:
+            sort_direction = "asc"
+        elif sort_direction == 1:
+            sort_direction = "desc"
+
         if sort == 0:
-            query += " ORDER BY max(e.collected_at) desc"
+            query += " ORDER BY max(e.collected_at) " + sort_direction
 
         if paginate and not (force_all or sort == 1):
             query += " LIMIT {} OFFSET {}".format(self.page_limit, self.page_limit * (page - 1))
@@ -789,11 +795,13 @@ class TraktSyncDatabase(trakt_sync.TraktSyncDatabase):
         self._format_seasons(seasons_to_update)
         self._format_episodes(episodes_to_update)
 
-    def get_nextup_episodes(self, sort_by_last_watched=False):
+    def get_nextup_episodes(self, sort_by, sort_direction):
         """
         Fetches a mock trakt response of items that a user should watch next for each show
-        :param sort_by_last_watched: Optional sorting by last_watched_at column
-        :type sort_by_last_watched: bool
+        :param sort_by: Optional sorting by param column
+        :type sort_by: int
+        :param sort_direction: Sorting direction
+        :type sort_direction: int
         :return: List of mixed episode/show pairs
         :rtype: list
         """
@@ -818,10 +826,17 @@ class TraktSyncDatabase(trakt_sync.TraktSyncDatabase):
         inner.trakt_show_id AND e.season == inner.season AND e.number == inner.number LEFT JOIN episodes_meta AS em 
         ON e.trakt_id = em.id AND em.TYPE = 'trakt' LEFT JOIN shows_meta AS sm ON e.trakt_show_id = sm.id AND sm.TYPE 
         = 'trakt' """
-        if sort_by_last_watched:
-            query += " ORDER BY inner.last_watched_at DESC"
-        else:
-            query += " ORDER BY e.air_date DESC"
+        if sort_by == 0:
+            sort_by = "e.air_date"
+        elif sort_by == 1:
+            sort_by = "inner.last_watched_at"
+
+        if sort_direction == 0:
+            sort_direction = "ASC"
+        elif sort_direction == 1:
+            sort_direction = "DESC"
+
+        query += " ORDER BY " + sort_by + " " + sort_direction
         results = self.execute_sql(query).fetchall()
         return self.wrap_in_trakt_object(results)
 
@@ -855,14 +870,20 @@ class TraktSyncDatabase(trakt_sync.TraktSyncDatabase):
         """
         paginate = g.get_bool_setting("general.paginatecollection")
         sort = g.get_int_setting("general.sortcollection")
+        sort_direction = g.get_int_setting("general.sortcollection.direction")
 
         query = """select m.id as trakt_id, value as trakt_object from shows_meta as m inner join(
         select ep.trakt_show_id, max(ep.collected_at) as collected_at from episodes as ep where ep.season != 0 and 
         ep.watched = 0 and ep.collected = 1 GROUP BY ep.trakt_show_id HAVING count(*) > 0) as u on u.trakt_show_id = 
         m.id and m.type='trakt'"""
 
+        if sort_direction == 0:
+            sort_direction = "asc"
+        elif sort_direction == 1:
+            sort_direction = "desc"
+
         if sort == 0:
-            query += " ORDER BY collected_at desc"
+            query += " ORDER BY collected_at " + sort_direction
 
         if paginate and not sort == 1:
             query += " LIMIT {} OFFSET {}".format(self.page_limit, self.page_limit * (page - 1))
@@ -913,4 +934,3 @@ class TraktSyncDatabase(trakt_sync.TraktSyncDatabase):
         and number=?""",
             (trakt_show_id, season, episode),
         ).fetchone()
-

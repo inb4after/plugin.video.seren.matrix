@@ -636,8 +636,8 @@ msgstr "Minimum Seconds Left Before Showing Dialog"
 
 #: \resources\settings.xml:256
 msgctxt "#30113"
-msgid "Auto Playlist Creation"
-msgstr "Auto Playlist Creation"
+msgid "Auto-Next Playlist Creation"
+msgstr "Auto-Next Playlist Creation"
 
 #: \resources\settings.xml:257
 msgctxt "#30114"
@@ -748,11 +748,6 @@ msgstr "Minimum Movie Resolution"
 msgctxt "#30135"
 msgid "Minimum TV Shows Resolution"
 msgstr "Minimum TV Shows Resolution"
-
-#: \resources\settings.xml:230
-msgctxt "#30136"
-msgid "Minimum Sources"
-msgstr "Minimum Sources"
 
 #: \resources\settings.xml:232
 msgctxt "#30137"
@@ -1910,8 +1905,8 @@ msgstr "Smart Play Display Style"
 
 #: \resources\settings.xml:261
 msgctxt "#30346"
-msgid "Smart Play Popup"
-msgstr "Smart Play Popup"
+msgid "Playing Next Dialog"
+msgstr "Playing Next Dialog"
 
 #: \resources\settings.xml:266
 msgctxt "#30347"
@@ -1925,8 +1920,8 @@ msgstr "Simple"
 
 #: \resources\settings.xml:267
 msgctxt "#30349"
-msgid "Default Action if Nothing Selected"
-msgstr "Default Action if Nothing Selected"
+msgid "Default Action if Playback Ended"
+msgstr "Default Action if Playback Ended"
 
 #: \resources\settings.xml:267 \resources\lib\gui\windows\source_select.py:79
 #: \resources\skins\Default\1080i\source_select.xml:352
@@ -3198,20 +3193,98 @@ msgctxt "#30577"
 msgid "Episode minimum File Size (GB)"
 msgstr "Episode minimum File Size (GB)"
 
+#: \resources\settings.xml:396 \resources\lib\gui\tvshowMenus.py:184
 msgctxt "#30578"
+msgid "Next Up Sort Direction"
+msgstr "Next Up Sort Direction"
+
+#: \resources\settings.xml:230
+msgctxt "#30136"
+msgid "Minimum Movie Sources"
+msgstr "Minimum Movie Sources"
+
+#: \resources\settings.xml:231
+msgctxt "#30579"
+msgid "Minimum TV Shows Sources"
+msgstr "Minimum TV Shows Sources"
+
+msgctxt "#30580"
 msgid "Invalid Trakt API keys, your authentication has been reset.\nPlease re-auth your Trakt account."
 msgstr "Invalid Trakt API keys, your authentication has been reset.\nPlease re-auth your Trakt account."
 
-msgctxt "#30579"
+msgctxt "#30581"
 msgid "Collection Sort Style"
 msgstr "Collection Sort Style"
 
-msgctxt "#30580"
+msgctxt "#30582"
 msgid "Date Collected"
 msgstr "Date Collected"
 
-msgctxt "#30581"
+msgctxt "#30583"
 msgid "Alphabetically"
 msgstr "Alphabetically"
 
+msgctxt "#30584"
+msgid "Ascending"
+msgstr "Ascending"
 
+msgctxt "#30585"
+msgid "Descending"
+msgstr "Descending"
+
+msgctxt "#30586"
+msgid "Collection Sort Direction"
+msgstr "Collection Sort Direction"
+
+msgctxt "#30587"
+msgid "Exit player"
+msgstr "Exit player"
+
+#: \resources\settings.xml:261
+msgctxt "#30588"
+msgid "Smart Play"
+msgstr "Smart Play"
+
+msgctxt "#30589"
+msgid "Continue Watching"
+msgstr "Continue Watching"
+
+msgctxt "#30590"
+msgid "Skip Intro"
+msgstr "Skip Intro"
+
+msgctxt "#30591"
+msgid "Enable Intro Skipping"
+msgstr "Enable Intro Skipping"
+
+msgctxt "#30592"
+msgid "Skip From"
+msgstr "Skip From"
+
+msgctxt "#30593"
+msgid "Skip To"
+msgstr "Skip To"
+
+msgctxt "#30594"
+msgid "Force Skip Always"
+msgstr "Force Skip Always"
+
+msgctxt "#30595"
+msgid "Skip Intro Dialog"
+msgstr "Skip Intro Dialog"
+
+msgctxt "#30596"
+msgid "Enable Skip Intro Dialog"
+msgstr "Enable Skip Intro Dialog"
+
+msgctxt "#30597"
+msgid "Open Skip Intro Dialog At Seconds"
+msgstr "Open Skip Intro Dialog At Seconds"
+
+msgctxt "#30598"
+msgid "Number Of Seconds To Skip"
+msgstr "Number Of Seconds To Skip"
+
+msgctxt "#30599"
+msgid "Auto Close Dialog After Seconds"
+msgstr "Auto Close Dialog After Seconds"
