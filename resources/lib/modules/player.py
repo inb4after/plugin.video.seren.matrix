@@ -865,7 +865,8 @@ class PlayerDialogs(xbmc.Player):
         from resources.lib.database.skinManager import SkinManager
 
         window = SkipIntro(
-            *SkinManager().confirm_skin_path("skip_intro.xml")
+            *SkinManager().confirm_skin_path("skip_intro.xml"),
+            item_information=self._get_current_item_item_information()
             )
         window.doModal()
         del window
